@@ -1,0 +1,12 @@
+.png=>1-Screenshot (89).png
+.png=>1-Screenshot (89).png
+.png=>1-Screenshot (89).png
+.png=>1-Screenshot (89).png
+.png=>../img/1-Screenshot (89).png
+.png=>../img/1-Screenshot (96).png
+.jpg=>../img/1-gallery05.jpg
+.jpeg=>../img/1-11422274_2c4f7776-ea49-4feb-ad3d-14a9ee931f60_960_1280.jpeg
+.jpg=>../img/1-1832130_a9dba24b-0dc5-4ca9-b237-0b109cead412_1125_861.jpg
+.jpg=>../img/1-150952wzpy6ps533s8zx86.jpg
+.jpg=>../img/1-150952wzpy6ps533s8zx86.jpg
+.jpg=>../img/1-1024c50e-cb10-40db-a4b3-884740bc7877.jpg
