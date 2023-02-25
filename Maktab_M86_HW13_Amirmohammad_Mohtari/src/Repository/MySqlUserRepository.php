@@ -23,12 +23,10 @@ class MySqlUserRepository implements RepositoryInterface {
 
     public function findByUserName(string $userName) {
 
-        return QueryBuilder::table('patients')
-            ->select(['id', 'user_name', 'password', 'full_name'])
-            ->union('doctors', ['id', 'user_name', 'password', 'full_name'])
-            ->union('admins', ['id', 'user_name', 'password', 'full_name'])
+        return QueryBuilder::table('users')
+            ->select()
             ->where('user_name', $userName)
-                ->first();
+            ->first();
     }
 
 }

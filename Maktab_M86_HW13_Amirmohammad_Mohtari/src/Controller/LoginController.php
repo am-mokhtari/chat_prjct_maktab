@@ -33,8 +33,8 @@ class LoginController
             exit();
         }
 
-        (new Session)->setSession("auth_id", $user->id);
-        (new Session)->setSession("authName", $user->full_name);
+        (new Session)->setSession("auth_id", $user->user_id);
+        (new Session)->setSession("auth_role", $user->role);
 
          header('Location: home');
         exit();

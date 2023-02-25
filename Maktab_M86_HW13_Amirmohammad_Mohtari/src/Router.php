@@ -3,6 +3,7 @@
 namespace src;
 
 use mysql_xdevapi\BaseResult;
+use src\database\QueryBuilder;
 
 class Router
 {
@@ -63,8 +64,12 @@ class Router
 
     private function signed()
     {
-        if (isset($_SESSION["user_id"])){
-            return $_SESSION['user_name'];
+        if (isset($_SESSION["auth_id"])){
+            $user = QueryBuilder::table($_SESSION["auth_role"] . "s")
+                ->select(['full_name'])
+                ->where('id', $_SESSION['auth_id'])
+                ->first();
+            return $user->full_name;
         }
         ob_start();
         include_once __DIR__ ."/views/layouts/signHeader.php";

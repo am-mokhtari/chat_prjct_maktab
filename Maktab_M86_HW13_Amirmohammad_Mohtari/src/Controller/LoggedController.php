@@ -6,7 +6,6 @@ use src\Application;
 
 class LoggedController
 {
-
     public function logout(){
         Session::destroy();
         header('Location: login');
