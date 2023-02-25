@@ -1,0 +1,9 @@
+{
+    "name": "ritzo/maktab_m86_hw13_amirmohammad_mohtari",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "require": {}
+}
