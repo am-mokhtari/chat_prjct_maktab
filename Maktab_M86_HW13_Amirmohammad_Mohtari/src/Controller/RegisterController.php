@@ -3,47 +3,42 @@
 namespace src\Controller;
 
 use src\Application;
+use src\helper\Auth;
 use src\helper\Session;
-use src\Repository\MySqlUserRepository;
+use src\Repository\UserRepository;
 
 class RegisterController
 {
-    private MySqlUserRepository $userRepository;
 
     public function __construct()
     {
-        $this->userRepository = new MySqlUserRepository();
     }
 
-    public function index(){
-
-        return Application::$app->router->renderView('register' );
+    public function index()
+    {
+        if (Session::getSession("auth_id")){
+            Auth::redirect('home');
+        }
+        return Application::$app->router->renderView('register');
     }
 
-    public function store(){
+    public function store()
+    {
         $user = array(
             'full_name' => $_POST['name'],
             'user_name' => $_POST['username'],
-            'password' => $_POST['password']
+            'password' => $_POST['password'],
+            'role' => $_POST["role"]
         );
-
-        switch ($_POST['role']){
-            case 'patient':
-                $tableName = 'patients';
-                break;
-            case  'doctor':
-                $tableName = 'doctors';
-                break;
-            case 'admin':
-                $tableName = 'admins';
-                break;
-            default:
-                (new Session)->setFlash("invalid_date", "value of role is invalid");
-                break;
+        if($_POST['role'] === 'patient'){
+            $user['register_status' ] = 1;
         }
-        $this->userRepository->add($user , "$tableName");
+//     Session::setFlash("invalid_date", "value of role is invalid");
+
+        UserRepository::add($user, "users");
 
 
-        return header('Location: login');
+        Session::setFlash("success", "Your are registered successfully!");
+        return Auth::redirect(' login');
     }
 }

@@ -9,6 +9,6 @@
         <input name="password" type="password" class="form-control" placeholder="Enter Password">
     </div>
     <div class="d-flex justify-content-center">
-        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="submit" class="btn btn-primary">Login</button>
     </div>
 </form>

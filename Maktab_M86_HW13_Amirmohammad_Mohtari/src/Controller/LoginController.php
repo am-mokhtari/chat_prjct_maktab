@@ -4,19 +4,18 @@ namespace src\Controller;
 
 use src\Application;
 use src\helper\Session;
-use src\Repository\MySqlUserRepository;
+use src\helper\Auth;
+use src\Repository\UserRepository;
 
 class LoginController
 {
-    private MySqlUserRepository $userRepository;
-    private Session $session;
 
-    public function __construct()
-    {
-        $this->userRepository = new MySqlUserRepository();
-    }
+    public function __construct(){}
 
     public function index(){
+        if (Session::getSession("auth_id")){
+            Auth::redirect('home');
+        }
         return Application::$app->router->renderView('login');
     }
 
@@ -24,26 +23,23 @@ class LoginController
         $userName = $_POST['username'] ?? null;
         $password = $_POST['password'] ?? null;
 
-        $user = $this->userRepository->findByUserName($userName);
+        $user = UserRepository::findByUserName($userName);
 
-        if($user->password != $password || empty($user)){
-            (new Session)->setFlash("loginError", "username or password is wrong!");
+        if($user->password !== $password || empty($user)){
+            Session::setFlash("danger", "username or password is wrong!");
 
-            header('Location: login');
-            exit();
+            Auth::redirect('login');
         }
 
-        (new Session)->setSession("auth_id", $user->user_id);
-        (new Session)->setSession("auth_role", $user->role);
+        if (!($user->register_status)){
+            Session::setFlash("warning", "Your account has not been verified yet.");
 
-         header('Location: home');
-        exit();
-    }
+            Auth::redirect('login');
+        }
+        Session::setSession("auth_id", $user->id);
+        Session::setSession("auth_role", $user->role);
 
-    public function logout(){
-        Session::destroy();
-        header('Location: login');
-        exit();
+        Auth::redirect('home');
     }
 
 }

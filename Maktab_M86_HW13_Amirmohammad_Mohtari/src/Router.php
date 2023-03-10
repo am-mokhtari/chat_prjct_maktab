@@ -4,15 +4,13 @@ namespace src;
 
 use mysql_xdevapi\BaseResult;
 use src\database\QueryBuilder;
+use src\helper\Session;
+use src\helper\Auth;
 
 class Router
 {
     protected array $routes = [];
-    public Request $request;
 
-    public function __construct(Request $request){
-        $this->request = $request;
-    }
 
     public function get($path , $callback){
         $this->routes['get'][$path] = $callback;
@@ -23,12 +21,11 @@ class Router
     }
 
     public function resolve(){
-        $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $path = Request::getPath();
+        $method = Request::getMethod();
         $callback = $this->routes[$method][$path] ?? false;
         if ($callback === false){
-            echo "Not Found";
-            return;
+            return $this->renderView("404");
         }
 
         if (is_string($callback)){
@@ -39,17 +36,19 @@ class Router
     }
 
     public function renderView($view , $params = []): void{
-        $layoutContent = $this->layoutContent();
-        $viewContent = $this->renderOnlyView($view , $params);
-        $signHeader = $this->signed();
-        $view = str_replace('{{signIn}}' , $signHeader , $layoutContent);
-        $view = str_replace('{{content}}' , $viewContent , $view);
-        echo $view;
+        $page = $this->layoutContent("/views/layouts/main.php");
+
+        $header = $this->layoutContent("/views/layouts/header.php");
+        $content = $this->renderOnlyView($view , $params);
+        $footer = $this->layoutContent("/views/layouts/footer.html");
+
+        $page = str_replace(array('{{header}}', '{{content}}', '{{footer}}'), array($header, $content, $footer), $page);
+        echo $page;
     }
 
-    protected function layoutContent(){
+    protected function layoutContent(string $path){
         ob_start();
-        include_once __DIR__ ."/views/layouts/main.php";
+        include_once __DIR__ .$path;
         return ob_get_clean();
     }
 
@@ -59,20 +58,6 @@ class Router
         }
         ob_start();
         include_once __DIR__ ."/views/$view.php";
-        return ob_get_clean();
-    }
-
-    private function signed()
-    {
-        if (isset($_SESSION["auth_id"])){
-            $user = QueryBuilder::table($_SESSION["auth_role"] . "s")
-                ->select(['full_name'])
-                ->where('id', $_SESSION['auth_id'])
-                ->first();
-            return $user->full_name;
-        }
-        ob_start();
-        include_once __DIR__ ."/views/layouts/signHeader.php";
         return ob_get_clean();
     }
 }

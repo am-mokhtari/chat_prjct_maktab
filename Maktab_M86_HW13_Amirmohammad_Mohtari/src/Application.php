@@ -10,9 +10,8 @@ class Application
 
     public function __construct()
     {
-        $this->request = new Request();
         self::$app = $this;
-        $this->router = new Router($this->request);
+        $this->router = new Router();
     }
 
     public function run(){

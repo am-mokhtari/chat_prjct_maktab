@@ -4,7 +4,7 @@ namespace src;
 
 class Request
 {
-    public function getPath(){
+    public static function getPath(){
         $path = $_SERVER['REQUEST_URI'] ?? '';
         $pos = strpos($path , '?');
         if ($pos === false){
@@ -13,7 +13,7 @@ class Request
         return substr($path , 0 , $pos);
     }
 
-    public function getMethod()
+    public static function getMethod()
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }

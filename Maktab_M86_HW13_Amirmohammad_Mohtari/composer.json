@@ -5,5 +5,7 @@
             "src\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+      "ext-mysql_xdevapi": "*"
+    }
 }

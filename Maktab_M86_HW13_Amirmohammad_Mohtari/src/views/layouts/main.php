@@ -11,35 +11,14 @@
 </head>
 <body>
 <div class="container">
-    <header>
-        <nav class="navbar navbar-expand-md bg-light px-3">
-            <div>
-                {{signIn}}
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <header class="mb-3">
+        {{header}}
     </header>
-    <main class="m-3">
+    <main class="my-3">
         {{content}}
     </main>
-    <footer class="m-3">
-        <p class="lead bg-dark text-white text-center">
-            Created By AmirMohammad
-        </p>
+    <footer class="mt-3">
+        {{footer}}
     </footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -47,4 +26,3 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-<?php
