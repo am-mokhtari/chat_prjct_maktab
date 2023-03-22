@@ -25,10 +25,17 @@ use \src\helper\Session;
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/panel">Panel</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/home">Home</a>
-                        </li>
-                    <?php } ?>
+                    <?php
+                    } else{
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/profile">profile</a>
+                    </li>
+                    <?php
+                    } ?>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                    </li>
                     <li class="nav-item">
                         <form method="post" action="/logout">
                             <button class="btn btn-danger" type="submit">Logout</button>

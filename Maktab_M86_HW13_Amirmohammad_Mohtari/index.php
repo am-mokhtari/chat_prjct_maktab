@@ -3,15 +3,17 @@ session_start();
 require_once "vendor/autoload.php";
 
 $app = new src\Application();
+
 // home
 $app->router->get('/' , [\src\Controller\HomeController::class , 'index']);
 $app->router->get('/home' , [\src\Controller\HomeController::class , 'index']);
 
 $app->router->get('/contact' , [\src\Controller\HomeController::class , 'contact']);
 
-$app->router->get('/panel' , [\src\Controller\HomeController::class , 'index']);
-
 $app->router->get('/showDetails' , [\src\Controller\HomeController::class , 'show']);
+
+$app->router->post('/showDetails/reserve' , [\src\Controller\HomeController::class , 'store']);
+$app->router->post('/showDetails/cancel' , [\src\Controller\HomeController::class , 'delete']);
 
 
 // register
@@ -31,6 +33,7 @@ $app->router->get('/logout' , [\src\helper\Auth::class , 'logout']);
 
 // panel
 $app->router->get('/panel' , [\src\Controller\PanelController::class , 'index']);
+$app->router->get('/profile' , [\src\Controller\PanelController::class , 'index']);
 
 
 // admin panel

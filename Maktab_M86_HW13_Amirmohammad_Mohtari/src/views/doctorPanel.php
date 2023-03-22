@@ -3,12 +3,12 @@
 use \src\helper\Session;
 use \src\helper\Test;
 
-$medicalNumber = $info->medical_number ?? '';
-$specialtyName = $info->specialty_name ?? '';
-$birthday = $info->birthday ?? '';
-$education = $info->education ?? '';
-$address = $info->address ?? '';
-$workHistory = $info->work_history ?? '';
+$medicalNumber = $info->medical_number ?? null;
+$specialtyName = $info->specialty_name ?? null;
+$birthday = $info->birthday ?? null;
+$education = $info->education ?? null;
+$address = $info->address ?? null;
+$workHistory = $info->work_history ?? null;
 
 if ($info) {
     foreach ($info as $key => $value) {
@@ -50,7 +50,7 @@ if (Session::getSession("profile_defect")) {
 
         <div class="mb-3 w-75">
             <lable class="form-label">specialty name:</lable>
-            <input class="form-control" type="number" name="specialtyName" value="<?= $specialtyName ?>">
+            <input class="form-control" type="text" name="specialtyName" value="<?= $specialtyName ?>">
         </div>
 
         <div class="mb-3 w-75">
@@ -60,12 +60,17 @@ if (Session::getSession("profile_defect")) {
 
         <div class="mb-3 w-75">
             <label class="form-label">education: </label>
-            <textarea class="form-control" name="education" rows="3"><?= $education ?></textarea>
+            <textarea class="form-control" name="education" rows="3"></textarea>
         </div>
 
         <div class="mb-3 w-75">
             <label class="form-label">address: </label>
-            <textarea class="form-control" name="address" rows="3"><?= $address ?></textarea>
+            <textarea class="form-control" name="address" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3 w-75">
+            <label class="form-label">work_history: </label>
+            <textarea class="form-control" name="workHistory" rows="3"></textarea>
         </div>
 
         <div class="mb-3 w-75">
@@ -74,10 +79,10 @@ if (Session::getSession("profile_defect")) {
                 <?php
                 if (!$departments) {
                     ?>
-                    <option value="" selected disabled>not exist any thing.</option>
+                    <option value="" selected disabled>not exist anything.</option>
                     <?php
                 } else { ?>
-                    <option value="" selected disabled>Select...</option>
+                    <option value="0" selected>Select...</option>
                     <?php
                     foreach ($departments as $department) {
                         ?>
@@ -95,11 +100,6 @@ if (Session::getSession("profile_defect")) {
             </select>
         </div>
 
-        <div class="mb-3 w-75">
-            <label class="form-label">work_history: </label>
-            <textarea class="form-control" name="workHistory" rows="3"><?= $workHistory ?></textarea>
-        </div>
-
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
 
@@ -115,15 +115,7 @@ if (Session::getSession("profile_defect")) {
                 <span class="input-group-text" id="basic-addon1">Day:</span>
             </div>
 
-            <select name="day" class="form-select" aria-label="Default select example">
-            <option selected disabled>Select...</option>
-            <option value="saturday">saturday</option>
-            <option value="sunday">sunday</option>
-            <option value="tuesday">tuesday</option>
-            <option value="wednesday">wednesday</option>
-            <option value="thursday">thursday</option>
-            <option value="friday">friday</option>
-        </select>
+            <input type="date" name="day" class="form-control">
         </div>
 
         <div class="d-flex justify-content-center">
@@ -173,4 +165,38 @@ if (Session::getSession("profile_defect")) {
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
 
+    <!------------------->
+
+    <table class="table table-info table-hover table-striped">
+        <thead>
+        <tr>
+            <td colspan="4" class="bg-secondary text-light text-center">* Reserves *</td>
+        </tr>
+        <tr class="text-center">
+            <th class="bg-info text-light" scope="col">Date</th>
+            <th class="bg-info text-light" scope="col">Time</th>
+            <th class="bg-info text-light" scope="col">Patient Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        if (empty($reserves)) {
+            ?>
+            <tr class="table-secondary text-center">
+                <td colspan="4">empty...</td>
+            </tr>
+            <?php
+        } else {
+            foreach ($reserves as $reserved):
+                ?>
+                <tr class="text-center">
+                    <td><?= $reserved->day ?></td>
+                    <td><?= $reserved->start_time . " - " . $reserved->end_time ?></td>
+                    <td>Dr.<?= $reserved->full_name ?></td>
+                </tr>
+            <?php
+            endforeach;
+        } ?>
+        </tbody>
+    </table>
 </div>

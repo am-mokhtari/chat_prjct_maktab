@@ -18,7 +18,7 @@ class QueryBuilder
 
     public string $query = '';
 
-    public array $where = [];
+    private array $where = [];
 
     private array $having = [];
 
@@ -63,12 +63,11 @@ class QueryBuilder
 
         ($this->statement)->execute($this->where);
 
-        return $this->statement->fetchAll();
+        return ($this->statement)->fetchAll();
     }
 
     public function create(array $values)
     {
-
         $key = implode(', ', array_keys($values));
         $placeHolders = implode(', :', array_keys($values));
 
@@ -99,18 +98,23 @@ class QueryBuilder
         return $this->execute();
     }
 
-    public function where(string $column, string $value)
+    public function where(string $column, $value, $placeHolder = null)
     {
         if (empty($this->where)) {
             $this->query = $this->query . " WHERE ";
-        } else {
+        }else {
             $this->query = $this->query . " AND ";
         }
 
-        $this->where[$column] = $value;
-        $this->values[$column] = $value;
-
-        $this->query = $this->query . "$column = :$column";
+        if ($placeHolder != null){
+            $this->query .= "$column = :$placeHolder";
+            $this->where[$placeHolder] = $value;
+            $this->values[$placeHolder] = $value;
+        } else{
+            $this->query .= "$column = :$column";
+            $this->where[$column] = $value;
+            $this->values[$column] = $value;
+        }
 
         return $this;
     }
@@ -146,6 +150,13 @@ class QueryBuilder
         return $this;
     }
 
+    public function orderedBy(string $column, string $sortType = "ASC")
+    {
+        $this->query .= " ORDER BY " . $column . " " . $sortType;
+
+        return $this;
+    }
+
     public function orWhere(string $column, string $value, int $counter = null)
     {
         if (empty($this->where)) {
@@ -158,6 +169,26 @@ class QueryBuilder
         $this->values[$column.$counter] = $value;
 
         $this->query = $this->query . " " . $column . " = :" . $column.$counter;
+
+        return $this;
+    }
+
+    public function whereIn(string $column, array $values, string $operation = " AND ")
+    {
+        if (empty($this->where)) {
+            $this->query .= " WHERE ";
+        }else {
+            $this->query .= $operation;
+        }
+
+        $value = "(";
+        foreach ($values as $item){
+            $value .= '"' . $item . '", ';
+        }
+        $value .= ")";
+        $value = str_replace(', )', ")", $value);
+
+        $this->query .= "$column IN $value";
 
         return $this;
     }
@@ -175,8 +206,8 @@ class QueryBuilder
         return $this;
     }
 
-    public function join(string $table ,string $column1 , string $column2 ,string $type = 'INNER'){
-        $this->query .= " $type JOIN $table ON $this->table.$column1 = $table.$column2";
+    public function join(string $table ,string $firstTableColumn , string $secondTableColumn ,string $type = 'INNER'){
+        $this->query .= " $type JOIN $table ON $this->table.$firstTableColumn = $table.$secondTableColumn";
         return $this;
     }
 
@@ -184,4 +215,5 @@ class QueryBuilder
     {
         return $this->statement->execute($this->values);
     }
+
 }

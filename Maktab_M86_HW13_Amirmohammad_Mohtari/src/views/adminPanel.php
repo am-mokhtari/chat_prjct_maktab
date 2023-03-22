@@ -3,12 +3,12 @@
 <div class="container">
     <div class="row">
 
-        <!--    Users    -->
-        <div class="col">
+        <!--    admins    -->
+        <div class="col-6">
             <table class="table  table-striped text-center">
                 <thead>
                 <tr>
-                    <th colspan="4">Users</th>
+                    <th colspan="5">Admins</th>
                 </tr>
                 <tr>
                     <th scope="col">#</th>
@@ -22,7 +22,68 @@
                 $i = 1;
                 foreach ($users as $user):
 
-                    if ($user->role !== 'patient') {
+                    if ($user->role == 'admin') {
+                        ?>
+
+                        <tr>
+                            <th scope="row"><?= $i ?></th scope="row">
+                            <td><?= $user->full_name ?></td>
+                            <td><?= $user->role ?></td>
+
+                            <?php
+                            if ($user->register_status) {
+                                ?>
+                                <td>enable</td>
+                                <td>
+                                    <form action="panel/changeStatus" method="post">
+                                        <input name="userId" type="hidden" value="<?= $user->id ?>">
+                                        <input name="status" type="hidden" value="<?= $user->register_status ?>">
+                                        <button class="btn btn-danger">change</button>
+                                    </form>
+                                </td>
+
+                            <?php } else { ?>
+
+                                <td>disable</td>
+                                <td>
+                                    <form action="panel/changeStatus" method="post">
+                                        <input name="userId" type="hidden" value="<?= $user->id ?>">
+                                        <input name="status" type="hidden" value="<?= $user->register_status ?>">
+                                        <button class="btn btn-success">change</button>
+                                    </form>
+                                </td>
+                            <?php } ?>
+                        </tr>
+
+                        <?php
+                    }
+                    $i++;
+                endforeach;
+                ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!--    doctors    -->
+        <div class="col-6">
+            <table class="table  table-striped text-center">
+                <thead>
+                <tr>
+                    <th colspan="5">Doctors</th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col" colspan="2">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                $i = 1;
+                foreach ($users as $user):
+
+                    if ($user->role === 'doctor') {
                         ?>
 
                         <tr>
@@ -70,7 +131,7 @@
             <table class="table  table-striped text-center">
                 <thead>
                 <tr>
-                    <th colspan="4">Departments</th>
+                    <th colspan="5">Departments</th>
                 </tr>
                 <tr>
                     <th scope="col">#</th>
@@ -135,10 +196,9 @@
                         </div>
                     </form>
                 </tr>
+                </tbody>
+            </table>
         </div>
 
-        </tr>
-        </tbody>
-        </table>
     </div>
 </div>

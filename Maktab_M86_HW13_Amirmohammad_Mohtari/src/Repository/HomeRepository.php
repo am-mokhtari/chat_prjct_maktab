@@ -21,16 +21,9 @@ class HomeRepository
             $res = $res->like("full_name", $name);
         }
         if (!empty($specialty)) {
-            $res = $res->where('specialty_name', "$specialty[0]");
-            unset($specialty[0]);
+            $res = $res->whereIn('specialty_name', $specialty);
         }
-        if (!empty($specialty)) {
-            $counter = 1;
-            foreach ($specialty as $value) {
-                $res = $res->orWhere("specialty_name", $value, $counter);
-                $counter++;
-            }
-        }
+
         return $res->get();
     }
 
@@ -41,6 +34,35 @@ class HomeRepository
 
     public static function getTime($id)
     {
-        return QueryBuilder::table("doctor_time_table")->select()->where("doctor_id", "$id")->first();
+        return QueryBuilder::table("time_table")->select()->where("user_id", "$id")->get();
+    }
+
+    public static function store(array $values): bool|string
+    {
+        $check = QueryBuilder::table("users_times")->select()
+            ->where("user_id", $values['user_id'])
+            ->where("time_id", $values['time_id'])
+            ->first();
+
+        if ($check){
+            return "exists";
+        }
+        return QueryBuilder::table("users_times")->create($values);
+    }
+
+    public static function delete(array $values)
+    {
+        $check = QueryBuilder::table("users_times")->select()
+            ->where("user_id", $values['user_id'])
+            ->where("time_id", $values['time_id'])
+            ->first();
+
+        if (!$check){
+            return "not exists";
+        }
+        return QueryBuilder::table("users_times")
+            ->where("user_id", $values['user_id'])
+            ->where("time_id", $values['time_id'])
+            ->delete();
     }
 }

@@ -55,7 +55,7 @@ class DoctorController
             "day" => $day,
             "start_time" => $_POST['startHour'] . ":" . $_POST['startMinutes'],
             "end_time" => $_POST['endHour'] . ":" . $_POST['endMinutes'],
-            "doctor_id" => $id
+            "user_id" => $id
         ];
 
         $existTime = DoctorRepository::findTime($id, $day);
@@ -70,7 +70,7 @@ class DoctorController
 
         }
         else{
-            $res = DoctorRepository::store("doctor_time_table", $values);
+            $res = DoctorRepository::store("time_table", $values);
 
             if ($res){
                 Session::setFlash("success", "Time saved successfully.");
@@ -81,4 +81,5 @@ class DoctorController
 
         Auth::redirect("/panel");
     }
+
 }
