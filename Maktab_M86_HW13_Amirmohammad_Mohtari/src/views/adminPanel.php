@@ -22,7 +22,7 @@
                 $i = 1;
                 foreach ($users as $user):
 
-                    if ($user->role == 'admin') {
+                    if ($user->role === 'admin') {
                         ?>
 
                         <tr>
@@ -56,8 +56,8 @@
                         </tr>
 
                         <?php
+                        $i++;
                     }
-                    $i++;
                 endforeach;
                 ?>
                 </tbody>
@@ -117,8 +117,8 @@
                         </tr>
 
                         <?php
+                        $i++;
                     }
-                    $i++;
                 endforeach;
                 ?>
                 </tbody>
@@ -163,7 +163,8 @@
                     </tr>
                     <?php
                     $i++;
-                endforeach; ?>
+                endforeach;
+                ?>
 
                 <tr>
                     <form action="/panel/addPart" method="post">
