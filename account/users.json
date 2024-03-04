@@ -1,7 +1,7 @@
 {
     "1": {
         "admin": true,
-        "username": "amir50",
+        "username": "amir23",
         "email": "amir@gmail.com",
         "profiles": [
             "..\/img\/profiles\/274237.jpg",
@@ -10,35 +10,7 @@
         ],
         "name": "ali",
         "bio": "ali am",
-        "password": "098765090",
-        "block": false
-    },
-    "2": {
-        "admin": false,
-        "username": "amir56",
-        "email": "am@g.com",
-        "profiles": [
-            "..\/img\/profiles\/459471.jpg",
-            "..\/img\/profiles\/666467.jpg",
-            "..\/img\/profiles\/804008.jpg",
-            "..\/img\/profiles\/593359.jpg"
-        ],
-        "name": "amir",
-        "bio": "ali am",
-        "password": "aaaa",
-        "block": false
-    },
-    "3": {
-        "admin": false,
-        "username": "amm",
-        "email": "amirmohammad.m509@gmail.com",
-        "profiles": [
-            "..\/img\/profiles\/217259.jpg",
-            "..\/img\/profiles\/422238.jpg"
-        ],
-        "name": "amirmohammad",
-        "bio": "Computer Science(\u2741\u00b4\u25e1`\u2741)",
-        "password": "5090",
+        "password": "0987654321",
         "block": false
     }
 }
